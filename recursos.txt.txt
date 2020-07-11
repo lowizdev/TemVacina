@@ -1,0 +1,4 @@
+http://cnes.datasus.gov.br/
+http://www.dados.gov.br/dataset?groups=saude
+
+TABELA: BASE DE DADOS CNS - TBESTABELECIMENTO
