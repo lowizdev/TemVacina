@@ -38,11 +38,13 @@ app.use(passport.session());
 const ensureAuthenticated = require('./config/auth.js').ensureAuthenticated;
 
 
+app.use(express.urlencoded({ extended: false }));
+
 app.get('/', (req, res) => {
     res.send('Hello!');
 });
 
-app.get('/dashboard', ensureAuthenticated ,(req, res) => {
+app.get('/dashboard', ensureAuthenticated, (req, res) => {
     res.send('This is the /authenticated/ dashboard!');
 });
 
@@ -62,9 +64,9 @@ app.get('/dashboard', ensureAuthenticated ,(req, res) => {
 
 });*/
 
-app.use(express.urlencoded({ extended: false }));
-
 const userRoutes = require('./routes/users.js').router;
 app.use('/users', userRoutes);
+const locationRoutes = require('./routes/locations.js').router;
+app.use('/locations', locationRoutes);
 
 app.listen(3000);
