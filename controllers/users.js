@@ -1,8 +1,23 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const { body, validationResult } = require('express-validator/check');
 const User = require('../models/user.js').User;
 
+
+//Validation with express validator
+//Maybe put this on the model?
+exports.validate = (method) => {
+    switch(method){
+        case 'createUser': {
+            return [
+                body('name', 'Unable to set proper username').exists(),
+                body('email', 'Invalid Email').exists().isEmail(),
+                body('password', 'Invalid Password').exists().isLength({min: 4}),
+            ];
+        }
+    }
+}
 
 //Login
 
@@ -25,9 +40,24 @@ exports.registerGet = (req, res, next) => {
 
 exports.registerPost = (req, res, next) => {
 
+    const validationErrors = validationResult(req);
+
+    if(!validationErrors.isEmpty()){
+        //TODO: DO SOMETHING WITH THE ERRORS
+        res.send(validationErrors);
+        //res.redirect('/users/register');
+        return;
+    }
+
     const { name, email, password, passwordconfirmation } = req.body;
 
-    //TODO:FINISH THIS WITH VALIDATION AND ETC;
+    //Password confirmation checked first to avoid resource consumption
+
+    if(password !== passwordconfirmation){
+        //TODO: SEND USER PRE-FILLED DATA
+        res.redirect('/users/register');
+        return;
+    }
 
     const newUser = new User({
         name: name,
@@ -36,6 +66,7 @@ exports.registerPost = (req, res, next) => {
     });
 
     bcrypt.genSalt(10, (err, salt) => {
+
         bcrypt.hash(password, salt, (err, hash) => {
             
             if(err){
@@ -61,6 +92,7 @@ exports.registerPost = (req, res, next) => {
 //Logout
 
 exports.logout = (req, res, next) => {
+    //Exposed by passport
     req.logout();
     res.send("Logged out!");
 }

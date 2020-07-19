@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session')
@@ -37,8 +38,10 @@ app.use(passport.session());
 //Auth guard
 const ensureAuthenticated = require('./config/auth.js').ensureAuthenticated;
 
+//BP
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.urlencoded({ extended: false }));
+//Common routes
 
 app.get('/', (req, res) => {
     res.send('Hello!');
