@@ -12,6 +12,8 @@ router.post('/login', UserController.loginPost);
 router.get('/register', UserController.registerGet);
 router.post('/register', UserController.validate('createUser') , UserController.registerPost);
 router.get('/logout', UserController.logout);
+router.get('/edit', UserController.editGet);
+router.post('/edit', UserController.editPost);
 
 
 exports.router = router;

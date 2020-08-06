@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const session = require('express-session')
+const session = require('express-session');
+const path = require('path');
 
 const User = require("./models/user.js").User;
 
@@ -16,8 +17,8 @@ mongoose.connect(conStr);
 require('./config/passport.js')(passport);
 
 //Template Engine
-//app.set('views', __dirname + '\\views');
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 //Session
 

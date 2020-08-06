@@ -96,3 +96,59 @@ exports.logout = (req, res, next) => {
     req.logout();
     res.send("Logged out!");
 }
+
+exports.editGet = (req, res, next) => {
+    //For simplicity and security, the app will allow only the authenticated user to edit itself
+
+    res.render("users/edit");
+
+    /*User.findById(req.user.id).then((curUser) => {
+        //res.send(curUser.name);
+        
+    }).catch();*/
+
+}
+
+exports.editPost = (req, res, next) => {
+    
+    const validationErrors = validationResult(req);
+
+    //TODO: CHECK IF LOGGED IN IS THE SAME BEING EDITED (?)
+
+    //res.send(req.user);
+    if(!validationErrors.isEmpty()){
+        res.send(validationErrors);
+        return;
+    }
+
+    const {name, email, password, newPassword, newPasswordConfirmation} = req.body;
+
+    //TODO: VALIDATE OLD PASSWORD TO CONFIRM USER AUTHORIZATION
+
+    User.findById(req.user.id).then((curUser) => {
+        //res.send(curUser.name);
+
+        curUser.name = name;
+        curUser.email = email;
+
+        return curUser.save();
+        
+    }).then((curUser) => {
+        //Handling password change if requested by user
+        //TODO: VERIFY MATCHING PASSWORD
+        if(true){
+            //return curUser.save();
+        }else{
+            //Hashes and saves new password
+        }
+
+        return curUser;
+
+    }).then((user) => {
+        
+        res.send("User saved successfully");
+
+    })
+    .catch();
+
+}
