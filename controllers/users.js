@@ -59,6 +59,8 @@ exports.registerPost = (req, res, next) => {
         return;
     }
 
+    //TODO: CHECK IF USER ALREADY EXISTS
+
     const newUser = new User({
         name: name,
         email: email,

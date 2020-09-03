@@ -22,6 +22,6 @@ let LocationSchema = Schema({
 
 }, {timestamps: true});
 
-const Location = mongoose.model('Location', LocationSchema);
+const Location = mongoose.model('Location', LocationSchema, 'locations'); //TODO: CHECK THIS!!!
 
 module.exports.Location = Location;
