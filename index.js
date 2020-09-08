@@ -72,5 +72,7 @@ const userRoutes = require('./routes/users.js').router;
 app.use('/users', userRoutes);
 const locationRoutes = require('./routes/locations.js').router;
 app.use('/locations', locationRoutes);
+const vaccinationRoutes = require('./routes/vaccinations.js').router;
+app.use('/vaccinations', vaccinationRoutes);
 
 app.listen(3000);

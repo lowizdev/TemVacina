@@ -22,7 +22,7 @@ exports.validate = (method) => {
 //Login
 
 exports.loginGet = (req, res, next) => {
-    res.render('login');
+    return res.render('login');
 }
 
 exports.loginPost = (req, res, next) => {
@@ -35,7 +35,7 @@ exports.loginPost = (req, res, next) => {
 //Register
 
 exports.registerGet = (req, res, next) => {
-    res.render('register');
+    return res.render('register');
 }
 
 exports.registerPost = (req, res, next) => {
@@ -82,7 +82,7 @@ exports.registerPost = (req, res, next) => {
                     
                     //TODO: FLASH HERE
 
-                    res.redirect('/users/login');
+                    return res.redirect('/users/login');
                 })
                 .catch((err) => {console.log(err)});//TODO: HANDLE THIS
 

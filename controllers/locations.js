@@ -1,6 +1,8 @@
 const express = require('express');
-const { body, validationResult } = require('express-validator');
+const { body, validationResult } = require('express-validator/check');
+const { Vaccination } = require('../models/vaccination.js');
 const Location = require('../models/location.js').Location;
+const ObjectId = require('mongoose').Types.ObjectId;
 
 exports.validate = (method) => {
     switch(method){
@@ -15,13 +17,13 @@ exports.validate = (method) => {
 
 //Show
 exports.locationsGet = (req, res, next) => {
-    
+    return res.send("Location get");
 };
 
 exports.locationGet = (req, res, next) => {
     const id = req.params.id;
     
-    Location.findOne({ name: 'Location name 2' }) //TODO: FIND OUT HOW TO ORDER THIS NUMERICALLY
+    Location.findOne({ name: 'Location name 2' }) //TODO: FIND OUT HOW TO ORDER THIS NUMERICALLY //TEST, CHANGE LATER
         .then((location) => {
 
             return res.send(location);
@@ -82,7 +84,7 @@ exports.searchPost = (req, res, next) => {
     Location.find({name: search}, (err, locations) => {
         console.log(locations);
         //return res.send("Query sent!"); // 
-        res.render('locations/search', {locations: locations});
+        return res.render('locations/search', {locations: locations});
     });
 
     //return res.render('locations/search');
@@ -141,3 +143,114 @@ exports.editPost = (req, res, next) => {
 
 };
 
+//ADD VACCINATION ROUTE
+//Add Vaccination
+
+exports.addVaccinationGet = (req, res, next) => {
+
+    //Adds to a list, when posted, sends all to register on such location
+
+    //const vaccinationId = req.params.vaccinationid;
+
+    //Would be ideal to make a route for each vaccination?
+
+    const locationId = req.params.locationid;
+
+    Promise.all([Location.findById(locationId), Vaccination.find({})])
+    .then(values => {
+        //console.log(values);
+
+        const existingVaccinationCodes = values[0].vaccinations;
+        const vaccinations = values[1];
+
+        return res.render('locations/addvaccinations', {
+            existingVaccinationCodes: existingVaccinationCodes,
+            vaccinations: vaccinations,
+            location: values[0],
+        });
+    })
+    .catch(err => { 
+        console.log(err) //TODO: THROW 404 
+    });
+
+    /*Location.findById(locationId)
+    .then((location) => {
+        return location;
+    })
+
+    Vaccination.find({})
+    .then((vaccinations) => {
+        return res.render("locations/addVaccination", { vaccinations: vaccinations });
+    })
+    .catch(err => { console.log(err) });*/
+
+}
+
+exports.addVaccinationPost = (req, res, next) => {
+
+    const vaccinations = Object.values(req.body);
+    const locationId = req.params.locationid;
+
+    //console.log(Object.values(req.body));
+
+    vaccinationsOIds = vaccinations.map(ObjectId)/*forEach(element => {
+        return ObjectId(element);
+    });*/
+
+    //console.log(vaccinationsOIds);
+
+    Promise.all([
+        Location.findById(locationId),
+        Vaccination.find({'_id': {
+            $in: vaccinationsOIds
+        }}), 
+    ])
+    .then(values => {
+
+        const location = values[0];
+        const vaccinationIds = values[1].map(vaccination => { return vaccination._id; });
+        
+        //console.log(vaccinationIds);
+        location.vaccinations = vaccinationIds;
+        
+        //return res.send("done");
+
+        return location.save();
+
+    })
+    .then(location => {
+
+        return res.redirect('/locations/search'); //TODO: CHANGE REDIRECT
+    
+    })
+    .catch(err => { 
+        console.log(err) //TODO: THROW 404 
+    });
+
+    /*Vaccination.find({'_id': {
+            $in: vaccinationsOIds
+        }
+    })
+    .then(existingVaccinations => {
+        console.log(existingVaccinations);
+
+        //FIND LOCATION AND REGISTER VACCINATIONS
+
+        return res.send("Post sent");
+    })
+    .catch(err => { 
+        console.log(err) //TODO: THROW 404 
+    });*/
+
+    //return res.send("Post sent");
+
+    /*Location.findById(locationId)
+    .then((location) => {
+
+        //vaccinations.filter(); //Responsibility moved to get
+
+        return location.save();
+    })
+    .then()
+    .catch(err => {console.log(err)});*/
+}

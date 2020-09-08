@@ -18,6 +18,11 @@ let LocationSchema = Schema({
         required: true
     },
 
+    vaccinations: {
+        type: [String],
+        required:false
+    },
+
     //TODO: ADD THE VACCINE TYPES
 
 }, {timestamps: true});

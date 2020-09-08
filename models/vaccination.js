@@ -9,7 +9,7 @@ let VaccinationSchema = new Schema({
     },
 
     description:{
-        type: Text,
+        type: String,
         required: true
     },
 

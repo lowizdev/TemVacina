@@ -13,6 +13,9 @@ router.post('/search', LocationController.searchPost);
 router.get('/:locationid/edit', LocationController.editGet);
 router.post('/:locationid/edit', LocationController.editPost);
 
+router.get('/:locationid/vaccinations', LocationController.addVaccinationGet);
+router.post('/:locationid/vaccinations', LocationController.addVaccinationPost);
+
 router.get('/:id', LocationController.locationGet);
 
 

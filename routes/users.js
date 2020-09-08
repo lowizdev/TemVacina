@@ -6,7 +6,6 @@ const UserController = require('../controllers/users.js');
 const { User } = require('../models/user.js');
 
 
-
 router.get('/login', UserController.loginGet);
 router.post('/login', UserController.loginPost);
 router.get('/register', UserController.registerGet);

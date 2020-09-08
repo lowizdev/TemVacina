@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/locations/<%= location._id %>/vaccinations" method="POST">
+        
+        <% vaccinations.forEach(vaccination => { %>
+            <input type="checkbox" name="checkbox_<%= vaccination.name %>" id="<%= vaccination._id %>" value="<%= vaccination._id %>">
+            <label for = "<%= vaccination._id %>"> <%= vaccination.name %> </label>
+        <% }) %>
+
+        <button type="submit">Add vaccinations</button>
+    </form>
+</body>
+</html>
