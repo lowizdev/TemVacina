@@ -7,6 +7,8 @@
 </head>
 <body>
     <form action="/locations/<%= location._id %>/vaccinations" method="POST">
+
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         
         <% vaccinations.forEach(vaccination => { %>
             <input type="checkbox" name="checkbox_<%= vaccination.name %>" id="<%= vaccination._id %>" value="<%= vaccination._id %>">

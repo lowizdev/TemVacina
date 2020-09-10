@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 const path = require('path');
+const helmet = require('helmet');
+const csrf = require('csurf');
 
 const User = require("./models/user.js").User;
 
@@ -20,6 +22,10 @@ require('./config/passport.js')(passport);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+//Static files
+
+app.use(express.static('public'));
+
 //Session
 
 app.use(session({
@@ -34,18 +40,24 @@ app.use(passport.session());
 
 //Flash
 
-
-
 //Auth guard
 const ensureAuthenticated = require('./config/auth.js').ensureAuthenticated;
 
 //BP
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//CSRF
+
+let csrfProtection = csrf({cookie: false});
+
+//Helmet
+app.use(helmet());
+
 //Common routes
 
 app.get('/', (req, res) => {
-    res.send('Hello!');
+    //res.send('Hello!');
+    res.render("index.ejs");
 });
 
 app.get('/dashboard', ensureAuthenticated, (req, res) => {
@@ -69,10 +81,10 @@ app.get('/dashboard', ensureAuthenticated, (req, res) => {
 });*/
 
 const userRoutes = require('./routes/users.js').router;
-app.use('/users', userRoutes);
+app.use('/users', csrfProtection, userRoutes);
 const locationRoutes = require('./routes/locations.js').router;
-app.use('/locations', locationRoutes);
+app.use('/locations', csrfProtection, locationRoutes);
 const vaccinationRoutes = require('./routes/vaccinations.js').router;
-app.use('/vaccinations', vaccinationRoutes);
+app.use('/vaccinations', csrfProtection, vaccinationRoutes);
 
 app.listen(3000);

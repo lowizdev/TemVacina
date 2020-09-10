@@ -1,0 +1,22 @@
+<%- include('../header') %> 
+
+<main>
+    <div class="hero is-medium">
+        <div class="hero-body has-text-centered">
+            <div class="container">
+                <h1 class="title">
+                    Bulma
+                </h1>
+                <form action="/users/login" method="POST">
+
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                    <input type="text" name="email" id="email">
+                    <input type="password" name="password" id="password">
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<%- include('../footer') %> 

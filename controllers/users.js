@@ -22,7 +22,7 @@ exports.validate = (method) => {
 //Login
 
 exports.loginGet = (req, res, next) => {
-    return res.render('login');
+    return res.render('users/login', { csrfToken: req.csrfToken() });
 }
 
 exports.loginPost = (req, res, next) => {
@@ -35,7 +35,8 @@ exports.loginPost = (req, res, next) => {
 //Register
 
 exports.registerGet = (req, res, next) => {
-    return res.render('register');
+    //console.log(req.csrfToken());
+    return res.render('users/register', { csrfToken: req.csrfToken() });
 }
 
 exports.registerPost = (req, res, next) => {
@@ -102,7 +103,7 @@ exports.logout = (req, res, next) => {
 exports.editGet = (req, res, next) => {
     //For simplicity and security, the app will allow only the authenticated user to edit itself
 
-    res.render("users/edit");
+    res.render("users/edit", {csrfToken: req.csrfToken()});
 
     /*User.findById(req.user.id).then((curUser) => {
         //res.send(curUser.name);
@@ -152,5 +153,21 @@ exports.editPost = (req, res, next) => {
 
     })
     .catch();
+
+}
+
+exports.dashboard = (req, res, next) => {
+
+    return res.send("This is the dashboard");
+
+}
+
+exports.test = (req, res, next) => {
+
+    console.log(req.body);
+
+    console.log(req.csrfToken());
+
+    return res.send("test from user");
 
 }

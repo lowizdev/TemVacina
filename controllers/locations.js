@@ -35,7 +35,7 @@ exports.locationGet = (req, res, next) => {
 
 exports.createGet = (req, res, next) => {
 
-    return res.render('locations/create');
+    return res.render('locations/create', {csrfToken: req.csrfToken()});
 
 };
 
@@ -71,7 +71,7 @@ exports.searchGet = (req, res, next) => {
     //TODO: SEND RESPONSE WITH NEARBY LOCATIONS ALREADY (COORDINATE BASED?)
     let locations = [];
     //console.log("Here");
-    return res.render('locations/search', {locations: locations});
+    return res.render('locations/search', { locations: locations, csrfToken: req.csrfToken() });
 };
 
 exports.searchPost = (req, res, next) => {
@@ -105,7 +105,7 @@ exports.editGet = (req, res, next) => {
     Location.findById(locationId)
     .then((location) => {
         //console.log(location);
-        return res.render('locations/edit', { location: location });
+        return res.render('locations/edit', { location: location, csrfToken: req.csrfToken() });
     })
     .catch((err) => {
         console.log(err);
@@ -167,6 +167,7 @@ exports.addVaccinationGet = (req, res, next) => {
             existingVaccinationCodes: existingVaccinationCodes,
             vaccinations: vaccinations,
             location: values[0],
+            csrfToken: req.csrfToken(),
         });
     })
     .catch(err => { 

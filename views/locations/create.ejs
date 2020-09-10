@@ -7,6 +7,8 @@
 </head>
 <body>
     <form action="/locations/create" method="POST">
+
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         
         <input type="text" name="name" id="name">
         <input type="text" name="type" id="type">

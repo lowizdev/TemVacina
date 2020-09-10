@@ -18,7 +18,7 @@ exports.validate = (method) => {
 }
 
 exports.createGet = (req, res, next) => {
-    return res.render('vaccinations/create');
+    return res.render('vaccinations/create', {csrfToken: req.csrfToken()});
 }
 
 exports.createPost = (req, res, next) => {
@@ -54,7 +54,7 @@ exports.editGet = (req, res, next) => {
     Vaccination.findById(vaccinationId)
     .then((vaccination) => {
         
-        return res.render('vaccinations/edit', { vaccination: vaccination });
+        return res.render('vaccinations/edit', { vaccination: vaccination, csrfToken: req.csrfToken() });
     
     }).catch((err) => {
         console.log(err);

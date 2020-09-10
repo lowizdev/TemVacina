@@ -14,5 +14,9 @@ router.get('/logout', UserController.logout);
 router.get('/edit', UserController.editGet);
 router.post('/edit', UserController.editPost);
 
+router.get('/dashboard', UserController.dashboard);
+
+router.get('/testuser', UserController.test);
+
 
 exports.router = router;
