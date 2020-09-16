@@ -81,7 +81,7 @@ exports.registerPost = (req, res, next) => {
             newUser.save()
                 .then(user => {
                     
-                    //TODO: FLASH HERE
+                    req.flash('loginMessage', 'User created successfully. You can now log in');
 
                     return res.redirect('/users/login');
                 })

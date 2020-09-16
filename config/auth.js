@@ -5,6 +5,7 @@ exports.ensureAuthenticated = (req, res, next) => {
         return next();
     }
     //TODO: MAYBE FLASH SOMETHING?
+    req.flash('loginMessage', 'Please log in');
     res.redirect('/users/login');
 }
 

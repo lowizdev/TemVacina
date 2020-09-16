@@ -1,5 +1,6 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator/check');
+const { NULL } = require('node-sass');
 const { Vaccination } = require('../models/vaccination.js');
 const Location = require('../models/location.js').Location;
 const ObjectId = require('mongoose').Types.ObjectId;
@@ -16,19 +17,29 @@ exports.validate = (method) => {
 }
 
 //Show
-exports.locationsGet = (req, res, next) => {
+/*exports.locationsGet = (req, res, next) => {
     return res.send("Location get");
-};
+};*/
 
 exports.locationGet = (req, res, next) => {
     const id = req.params.id;
-    
-    Location.findOne({ name: 'Location name 2' }) //TODO: FIND OUT HOW TO ORDER THIS NUMERICALLY //TEST, CHANGE LATER
-        .then((location) => {
 
-            return res.send(location);
+    let reqLocation = undefined; //Another solution for passing dependencies through promises
+    
+    Location.findOne({ _id: id }) //DONETODO: FIND OUT HOW TO ORDER THIS NUMERICALLY //TEST, CHANGE LATER
+        .then((location) => {
+            reqLocation = location;
+            //return res.send(location);
+            vaccinationIds = location.vaccinations;
+            
+            return Vaccination.find({'_id': 
+                { $in: vaccinationIds },
+            });
         
-        });
+        }).then((vaccinations) => {
+            return res.render('locations/show', { location : reqLocation, vaccinations : vaccinations });
+        })
+        .catch((err) => {console.log(err);});
 };
 
 //Create
@@ -78,13 +89,15 @@ exports.searchPost = (req, res, next) => {
 
     //TODO: SEARCH BY MULTIPLE FIELDS FROM LOCATIONS?
 
-    const {search} = req.body;
+    const {q} = req.body;
+
+    //console.log(q);
 
     //TODO: REMOVE SPECIAL CHARS
-    Location.find({name: search}, (err, locations) => {
+    Location.find({ $text: { $search : q } }, (err, locations) => { //TODO: ENHANCE SEARCH
         console.log(locations);
         //return res.send("Query sent!"); // 
-        return res.render('locations/search', {locations: locations});
+        return res.render('locations/search', {locations: locations, csrfToken: req.csrfToken()}); //TODO: MAYBE REMOVE CSRF HERE?
     });
 
     //return res.render('locations/search');

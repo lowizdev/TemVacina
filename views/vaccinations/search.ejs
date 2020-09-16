@@ -7,7 +7,7 @@
 
                     <div class="columns is-centered">
                         <div class="column is-vcentered is-half">
-                            <form action="/locations/search" method="POST">
+                            <form action="/vaccinations/search" method="POST">
 
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 
@@ -22,8 +22,8 @@
                                 <button class="button is-info is-outlined" type="submit">Search</button>
                             </form>
 
-                        <% locations.forEach(location => { %>
-                            <p> <%= location.name %> </p>
+                        <% vaccinations.forEach(vaccination => { %>
+                            <p> <%= vaccination.name %> </p>
                         <% }) %>
 
                         </div>

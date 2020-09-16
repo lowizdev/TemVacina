@@ -30,5 +30,7 @@ let VaccinationSchema = new Schema({
 
 }, {timestamps:true});
 
-const Vaccination = mongoose.model('Vaccination', VaccinationSchema);
+VaccinationSchema.index({ name:'text', vaccode: 'text' });
+
+const Vaccination = mongoose.model('Vaccination', VaccinationSchema, 'vaccinations');
 module.exports.Vaccination = Vaccination;

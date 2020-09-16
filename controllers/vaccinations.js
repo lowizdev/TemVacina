@@ -92,3 +92,54 @@ exports.editPost = (req, res, next) => {
     });
 
 }
+
+exports.showAll = (req, res, pos) => {
+    Vaccination.find({})
+    .then(( vaccinations ) => {
+
+        return res.render('vaccinations/showall', {vaccinations : vaccinations});
+
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+};
+
+exports.searchGet = (req, res, pos) => {
+
+    const vaccinations = [];
+
+    return res.render('vaccinations/search', { vaccinations: vaccinations, csrfToken: req.csrfToken() });
+
+};
+
+exports.searchPost = (req, res, pos) => {
+
+    const {q} = req.body;
+
+    Vaccination.find( { $text: { $search: q } } )
+    .then((vaccinations) => {
+        return res.render('vaccinations/search', {vaccinations: vaccinations, csrfToken: req.csrfToken()});
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
+};
+
+exports.delete = (req, res, pos) => {
+
+    const vaccinationId = req.body.vaccinationId;
+
+    Vaccination.deleteOne({'_id': vaccinationId})
+    .then((success) => {
+        //TODO: CHECK SUCCESS
+        return res.redirect('/vaccinations');
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
+};
+
+//TODO: MAKE ADMIN PANELS

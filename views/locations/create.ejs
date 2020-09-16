@@ -1,21 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="/locations/create" method="POST">
+<%- include('../header') %> 
 
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        
-        <input type="text" name="name" id="name">
-        <input type="text" name="type" id="type">
-        
-        ADD COORDINATES HERE
+    <main>
+        <div class="hero is-medium">
+            <div class="hero-body has-text-centered">
+                <div class="container">
+                    <form action="/locations/create" method="POST">
 
-        <button type="submit">Create</button>
-    </form>
-</body>
-</html>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        
+                        <div class="field">
+                            <label for="name" class="label">Nome</label>
+                            <div class="control">
+                                <input type="text" name="name" id="name">
+                            </div>
+                        </div>
+
+                        <input type="text" name="type" id="type">
+                        
+                        ADD COORDINATES HERE
+
+                        <button type="submit">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<%- include('../footer') %> 

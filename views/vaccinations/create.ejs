@@ -1,20 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="/vaccinations/create" method="POST">
-        
-        <input type="text" name="name" id="name">
-        <input type="text" name="description" id="description">
-        <!--<input type="text" name="pathologies" id="type">-->
-        <input type="text" name="vaccode" id="vaccode">
-        <input type="text" name="dosage" id="dosage">
+<%- include('../header') %> 
+<main>
+    <div class="hero is-medium">
+        <div class="hero-body ">
+            <div class="container">
 
-        <button type="submit">Create</button>
-    </form>
-</body>
-</html>
+                <div class="columns is-centered">
+                    <div class="column is-half">
+                        <form action="/vaccinations/create" method="POST">
+                            
+                            <div class="field">
+                                <label for="name" class="label">Nome</label>
+                                <div class="control">
+                                    <input class="input is-primary" type="text" name="name" id="name">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="description" class="label">Descrição</label>
+                                <div class="control">
+                                    <input class="input is-primary" type="text" name="description" id="description">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="vaccode" class="label">Código</label>
+                                <div class="control">
+                                    <input  class="input is-primary" type="text" name="vaccode" id="vaccode">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="dosage" class="label">Dosagem</label>
+                                <div class="control">
+                                    <input class="input is-primary" type="number" name="dosage" id="dosage" step="0.01">
+                                </div>
+                            </div>
+
+                            
+                            <!--<input type="text" name="pathologies" id="type">-->
+                            <div class="has-text-centered">
+                                <button class="button is-primary" type="submit">Registrar</button>
+                            </div>
+                        </form>
+
+                        </div>
+                        </div>
+</div>
+</div>
+</div>
+</main>
+<%- include('../footer') %> 

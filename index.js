@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
 const path = require('path');
+const flash = require('flash');
 const helmet = require('helmet');
 const csrf = require('csurf');
 
@@ -38,8 +39,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Flash
-
 //Auth guard
 const ensureAuthenticated = require('./config/auth.js').ensureAuthenticated;
 
@@ -52,6 +51,10 @@ let csrfProtection = csrf({cookie: false});
 
 //Helmet
 app.use(helmet());
+
+//Flash messages
+
+app.use(flash());
 
 //Common routes
 
@@ -86,5 +89,25 @@ const locationRoutes = require('./routes/locations.js').router;
 app.use('/locations', csrfProtection, locationRoutes);
 const vaccinationRoutes = require('./routes/vaccinations.js').router;
 app.use('/vaccinations', csrfProtection, vaccinationRoutes);
+
+//TODO: UNCOMMENT TO ENABLE ERROR HANDLERS
+/*app.get('/404', (req, res, next) => { //TEST ONLY
+    let err = new Error('not allowed');
+    err.status = 404;
+    next(err);
+});
+
+app.use((err, req, res, next) => {
+    //console.log(err.status);
+
+    if(err.status == 404){
+        res.status(404);
+        return res.render('errors/404');
+    }else{
+        res.status(500);
+        return res.render('errors/500');
+    }
+
+});*/
 
 app.listen(3000);

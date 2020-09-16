@@ -27,6 +27,10 @@ let LocationSchema = Schema({
 
 }, {timestamps: true});
 
+//Text search
+
+LocationSchema.index({name: 'text', type: 'text'});
+
 const Location = mongoose.model('Location', LocationSchema, 'locations'); //TODO: CHECK THIS!!!
 
 module.exports.Location = Location;

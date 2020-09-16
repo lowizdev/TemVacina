@@ -1,20 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="/users/edit" method="POST">
+<%- include('../header') %> 
 
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+<main>
+    <div class="hero is-medium">
+        <div class="hero-body">
+            <div class="container box">
 
-        <input type="text" name="name" id="name">
-        <input type="text" name="email" id="email">
-        <input type="password" name="password" id="password">
-        <input type="password" name="passwordconfirmation" id="passwordconfirmation">
-        <button type="submit">Register</button>
-    </form>
-</body>
-</html>
+                <div class="columns is-centered">
+                    <div class="column is-vcentered is-half">
+                        <form action="/users/edit" method="POST">
+
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                            <div class="field">
+                                <label for="name" class="label">Nome</label>
+                                <div class="control">
+                                    <input class="input is-primary" type="text" name="name" id="name">
+                                </div>
+                            </div>
+                            
+                            <div class="field">
+                                <label for="email" class="label">Email</label>
+                                <div class="control">
+                                    <input class="input is-primary" type="text" name="email" id="email">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="password" class="label">Senha</label>
+                                <div class="control">
+                                    <input class="input is-primary" type="password" name="password" id="password">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="passwordconfirmation" class="label">Confirmação</label>
+                                <div class="control">
+                                    <input class="input is-primary" type="password" name="passwordconfirmation" id="passwordconfirmation">
+                                </div>
+                            </div>
+
+                            <button class="button is-primary" type="submit">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('../footer') %> 
