@@ -44,10 +44,11 @@ exports.registerPost = (req, res, next) => {
     const validationErrors = validationResult(req);
 
     if(!validationErrors.isEmpty()){
-        //TODO: DO SOMETHING WITH THE ERRORS
-        res.send(validationErrors);
+        //DONETODO: DO SOMETHING WITH THE ERRORS
+        //res.send(validationErrors);
         //res.redirect('/users/register');
-        return;
+        //console.log(validationErrors);
+        return res.render('users/register', { csrfToken: req.csrfToken(), errors: validationErrors.errors });
     }
 
     const { name, email, password, passwordconfirmation } = req.body;

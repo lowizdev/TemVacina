@@ -23,7 +23,7 @@ let LocationSchema = Schema({
         required:false
     },
 
-    //TODO: ADD THE VACCINE TYPES
+    //DONETODO: ADD THE VACCINE TYPES
 
 }, {timestamps: true});
 

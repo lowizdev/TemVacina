@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Hello Bulma!</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+    <!--<script src="../js/leaflet.js"></script>-->
+
+    <script type="text/javascript" src="../js/map.js"></script>
+
+    <link rel="stylesheet" href="../css/mystyles.css">
+
+    <style>
+        #mapid { height: 180px; width: 80em; }
+    </style>
+    
+</head>
+<body>
+
+
+
+
+<main>
+
+    <div class="hero is-medium">
+        <div class="hero-body has-text-centered">
+            <div class="container">
+                <h1 class="title">
+                    Hello World
+                </h1>
+                <p class="subtitle">
+                    Map Screen
+                </p>
+                </div>
+                
+                <div class="is-medium" id="mapid"></div>
+                
+
+        </div>
+
+    </div>
+
+
+</main>
+
+<script src="../js/maptest.js"></script>
+
+<%- include('footer') %> 

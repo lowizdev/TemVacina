@@ -50,7 +50,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 let csrfProtection = csrf({cookie: false});
 
 //Helmet
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false, //TODO: ENABLE AGAIN
+    }));
 
 //Flash messages
 
@@ -82,6 +84,11 @@ app.get('/dashboard', ensureAuthenticated, (req, res) => {
     });
 
 });*/
+
+//TODO: FIX TEMPORARY
+app.get('/map', (req, res, next) => {
+    res.render("map.ejs");
+});
 
 const userRoutes = require('./routes/users.js').router;
 app.use('/users', csrfProtection, userRoutes);

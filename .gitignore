@@ -1,6 +1,8 @@
 #Added
 
 public/css
+public/js/leaflet.js
+public/js/maptest.js
 
 # Logs
 logs

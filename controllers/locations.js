@@ -1,6 +1,6 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator/check');
-const { NULL } = require('node-sass');
+//const { NULL } = require('node-sass');
 const { Vaccination } = require('../models/vaccination.js');
 const Location = require('../models/location.js').Location;
 const ObjectId = require('mongoose').Types.ObjectId;
@@ -87,14 +87,16 @@ exports.searchGet = (req, res, next) => {
 
 exports.searchPost = (req, res, next) => {
 
-    //TODO: SEARCH BY MULTIPLE FIELDS FROM LOCATIONS?
+    //DONETODO: SEARCH BY MULTIPLE FIELDS FROM LOCATIONS?
 
     const {q} = req.body;
 
-    //console.log(q);
+    const sanitizedQuery = q.replace(/[^0-9a-z ]/gi, '');
 
-    //TODO: REMOVE SPECIAL CHARS
-    Location.find({ $text: { $search : q } }, (err, locations) => { //TODO: ENHANCE SEARCH
+    //console.log(sanitizedQuery);
+
+    //DONETODO: REMOVE SPECIAL CHARS
+    Location.find({ $text: { $search : sanitizedQuery } }, (err, locations) => { //DONETODO: ENHANCE SEARCH
         console.log(locations);
         //return res.send("Query sent!"); // 
         return res.render('locations/search', {locations: locations, csrfToken: req.csrfToken()}); //TODO: MAYBE REMOVE CSRF HERE?
@@ -184,7 +186,9 @@ exports.addVaccinationGet = (req, res, next) => {
         });
     })
     .catch(err => { 
-        console.log(err) //TODO: THROW 404 
+        //console.log(err) //DONETODO: THROW 404 
+        err.status = 404;
+        return next(err);
     });
 
     /*Location.findById(locationId)
@@ -207,7 +211,7 @@ exports.addVaccinationPost = (req, res, next) => {
 
     //console.log(Object.values(req.body));
 
-    vaccinationsOIds = vaccinations.map(ObjectId)/*forEach(element => {
+    vaccinationsOIds = vaccinations.map(ObjectId);/*forEach(element => {
         return ObjectId(element);
     });*/
 
@@ -238,7 +242,10 @@ exports.addVaccinationPost = (req, res, next) => {
     
     })
     .catch(err => { 
-        console.log(err) //TODO: THROW 404 
+        //console.log(err) //DONETODO: THROW 404
+
+        err.status = 404;
+        return next(err);
     });
 
     /*Vaccination.find({'_id': {

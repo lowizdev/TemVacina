@@ -14,6 +14,11 @@ let UserSchema = new Schema({
         type: String,
         required: true,
     },
+    admin:{
+        type: Boolean,
+        default: false,
+        required: false,
+    },
 }, {timestamps: true});
 
 const User = mongoose.model('User', UserSchema, 'users');
