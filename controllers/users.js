@@ -36,59 +36,88 @@ exports.loginPost = (req, res, next) => {
 
 exports.registerGet = (req, res, next) => {
     //console.log(req.csrfToken());
-    return res.render('users/register', { csrfToken: req.csrfToken() });
+    return res.render('users/register', { csrfToken: req.csrfToken(), user: { name: undefined } });
 }
 
 exports.registerPost = (req, res, next) => {
 
     const validationErrors = validationResult(req);
 
-    if(!validationErrors.isEmpty()){
-        //DONETODO: DO SOMETHING WITH THE ERRORS
-        //res.send(validationErrors);
-        //res.redirect('/users/register');
-        //console.log(validationErrors);
-        return res.render('users/register', { csrfToken: req.csrfToken(), errors: validationErrors.errors });
-    }
+    //console.log(req.body);
 
     const { name, email, password, passwordconfirmation } = req.body;
 
-    //Password confirmation checked first to avoid resource consumption
-
-    if(password !== passwordconfirmation){
-        //TODO: SEND USER PRE-FILLED DATA
-        res.redirect('/users/register');
-        return;
-    }
-
-    //TODO: CHECK IF USER ALREADY EXISTS
+    //DONETODO: CHECK IF USER ALREADY EXISTS
 
     const newUser = new User({
         name: name,
         email: email,
         password: '',
     });
+    
+    if(!validationErrors.isEmpty() || ( password !== passwordconfirmation )){
+        //DONETODO: DO SOMETHING WITH THE ERRORS
+        //res.send(validationErrors);
+        //res.redirect('/users/register');
+        //console.log(validationErrors);
+        req.flash('registerErrorMessage', 'Error registering the current user');
+        return res.render('users/register', { csrfToken: req.csrfToken(), user: newUser, errors: validationErrors.errors });
+    }
 
-    bcrypt.genSalt(10, (err, salt) => {
+    //Password confirmation checked first to avoid resource consumption
 
-        bcrypt.hash(password, salt, (err, hash) => {
-            
-            if(err){
-                throw err;
-            }
+    /*if(password !== passwordconfirmation){ //MOVED UP ^
+        //DONETODO: SEND USER PRE-FILLED DATA
+        res.redirect('/users/register');
+        return;
+    }*/
 
-            newUser.password = hash;
+    User.find({email: email}).then((user) => { //FIRST, CHECK IF USER ALREADY EXISTS
 
-            newUser.save()
-                .then(user => {
+        //console.log(user == false);
+
+        if(user == false){
+
+            //console.log("HERE")
+            bcrypt.genSalt(10, (err, salt) => {
+
+                bcrypt.hash(password, salt, (err, hash) => {
                     
-                    req.flash('loginMessage', 'User created successfully. You can now log in');
+                    if(err){
+                        throw err;
+                    }
 
-                    return res.redirect('/users/login');
-                })
-                .catch((err) => {console.log(err)});//TODO: HANDLE THIS
+                    newUser.password = hash;
 
-        });
+                    newUser.save()
+                        .then(user => {
+                            
+                            req.flash('loginMessage', 'User created successfully. You can now log in');
+
+                            return res.redirect('/users/login');
+                        })
+                        .catch((err) => {
+                        
+                            //console.log(err)
+
+                            err.status = 500;
+                            return next(err);
+                        
+                        });//DONETODO: HANDLE THIS
+
+                });
+            });
+
+        }else{//ELSE, THE USER ALREADY EXISTS
+
+            //TODO: FLASH HERE
+            return res.render('users/register', { csrfToken: req.csrfToken(), user: newUser }); //GO BACK TO START
+        }
+    }).catch((err) => {
+
+        err.status = 500;
+        return next(err);
+    
     });
 
 }
@@ -104,7 +133,18 @@ exports.logout = (req, res, next) => {
 exports.editGet = (req, res, next) => {
     //For simplicity and security, the app will allow only the authenticated user to edit itself
 
-    res.render("users/edit", {csrfToken: req.csrfToken()});
+    User.findById(req.user.id).then((user) => {
+    
+        res.render("users/edit", {csrfToken: req.csrfToken(), user: user});
+    
+    }).catch((err) => {
+        
+        err.status = 500;
+        return next(err);
+
+    });
+
+    
 
     /*User.findById(req.user.id).then((curUser) => {
         //res.send(curUser.name);
@@ -117,19 +157,22 @@ exports.editPost = (req, res, next) => {
     
     const validationErrors = validationResult(req);
 
-    //TODO: CHECK IF LOGGED IN IS THE SAME BEING EDITED (?)
-
-    //res.send(req.user);
-    if(!validationErrors.isEmpty()){
-        res.send(validationErrors);
-        return;
-    }
+    //DONETODO: CHECK IF LOGGED IN IS THE SAME BEING EDITED (?)
 
     const {name, email, password, newPassword, newPasswordConfirmation} = req.body;
 
+    //res.send(req.user);
+    if(!validationErrors.isEmpty()){
+        //res.send(validationErrors); //DONETODO: FLASH
+
+        req.flash("editErrorMessage", "Error registering the edited user");
+
+        return res.render("users/edit", {csrfToken: req.csrfToken(), user: { name: name, email: email }});
+    }
+
     //TODO: VALIDATE OLD PASSWORD TO CONFIRM USER AUTHORIZATION
 
-    User.findById(req.user.id).then((curUser) => {
+    User.findById(req.user.id).then((curUser) => { //GETS THE ID FROM THE USER OF THE CURRENT SESSION
         //res.send(curUser.name);
 
         curUser.name = name;

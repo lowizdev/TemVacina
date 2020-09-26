@@ -1,5 +1,6 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator/check');
+const { User } = require('../models/user.js');
 //const { NULL } = require('node-sass');
 const { Vaccination } = require('../models/vaccination.js');
 const Location = require('../models/location.js').Location;
@@ -72,7 +73,11 @@ exports.createPost = (req, res, next) => {
         .then(location => {
             return res.redirect('/locations');
         })
-        .catch((err) => {console.log(err)});
+        .catch((err) => {
+            //console.log(err)
+            err.status = 500;
+            return next(err);
+        });
 
 };
 
@@ -109,7 +114,7 @@ exports.searchPost = (req, res, next) => {
 
 //Edit
 
-//TODO: CHECK IF USER CAN EDIT
+//DONETODO: CHECK IF USER CAN EDIT
 
 exports.editGet = (req, res, next) => {
 
@@ -117,14 +122,31 @@ exports.editGet = (req, res, next) => {
     //console.log(req.params);
     //console.log(locationId);
 
+    let foundLocation = undefined;
+
     Location.findById(locationId)
     .then((location) => {
+        
+        foundLocation = location;
+
+        return User.findById(req.user.id);
+        
+    })
+    .then((user) => {
         //console.log(location);
-        return res.render('locations/edit', { location: location, csrfToken: req.csrfToken() });
+
+        if(user.admin){
+            return res.render('locations/edit', { location: foundLocation, csrfToken: req.csrfToken() });
+        }
+        
+        return res.render('locations/index');
+        
     })
     .catch((err) => {
-        console.log(err);
-        //404
+        //console.log(err);
+        //404 ?
+        err.status = 500;
+        return next(err);
     });
 
     
@@ -143,7 +165,16 @@ exports.editPost = (req, res, next) => {
     
     const locationId = req.params.locationid;
 
-    Location.findById(locationId).then((curLocation) => {
+    User.findById(req.user.id)
+    .then((user) => {
+        
+        if(!user.admin){
+            return res.redirect('/locations/index');
+        }
+
+        return Location.findById(locationId);
+
+    }).then((curLocation) => {
 
         curLocation.name = name;
         curLocation.type = type;
@@ -154,9 +185,33 @@ exports.editPost = (req, res, next) => {
 
         return res.redirect('/locations/search');
 
-    }).catch((err) => console.log(err));
+    }).catch((err) => {
+        //console.log(err)
+        err.status = 500;
+        return next(err);
+    });
 
 };
+
+exports.delete = (req, res, next) => {
+
+    const locationId = req.params.locationid;
+
+    Location.findById(locationId).then((curLocation) => {
+    
+        return curLocation.delete();
+    
+    }).then((result) => {
+        
+        return res.redirect('/locations/');
+    
+    }).catch((err) => {
+        //console.log(err)
+        err.status = 500;
+        return next(err);
+    });
+
+} //DONETODO: IMPLEMENT DELETION
 
 //ADD VACCINATION ROUTE
 //Add Vaccination
@@ -238,7 +293,7 @@ exports.addVaccinationPost = (req, res, next) => {
     })
     .then(location => {
 
-        return res.redirect('/locations/search'); //TODO: CHANGE REDIRECT
+        return res.redirect('/locations/'+location._id); //DONETODO: CHANGE REDIRECT
     
     })
     .catch(err => { 
@@ -260,7 +315,9 @@ exports.addVaccinationPost = (req, res, next) => {
         return res.send("Post sent");
     })
     .catch(err => { 
-        console.log(err) //TODO: THROW 404 
+        //console.log(err) //DONETODO: THROW 404
+        err.status = 404;
+        return next(err); 
     });*/
 
     //return res.send("Post sent");

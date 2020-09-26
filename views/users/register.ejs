@@ -20,14 +20,14 @@
                                 <div class="field">
                                     <label for="name" class="label">Nome</label>
                                     <div class="control">
-                                        <input class="input is-primary" type="text" name="name" id="name">
+                                        <input class="input is-primary" type="text" name="name" id="name" value="<%= user.name ? user.name : '' %>" >
                                     </div>
                                 </div>
                                 
                                 <div class="field">
                                     <label for="email" class="label">Email</label>
                                     <div class="control">
-                                        <input class="input is-primary" type="text" name="email" id="email">
+                                        <input class="input is-primary" type="text" name="email" id="email" value="<%= user.email ? user.email : '' %>">
                                     </div>
                                 </div>
 

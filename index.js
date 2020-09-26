@@ -8,7 +8,7 @@ const flash = require('flash');
 const helmet = require('helmet');
 const csrf = require('csurf');
 
-const User = require("./models/user.js").User;
+//const User = require("./models/user.js").User;
 
 const conStr = "mongodb://localhost:27017/temvacinadb";
 
@@ -33,7 +33,9 @@ app.use(session({
     secret: 'this is a secret',
     resave: true,
     saveUninitialized:true,
-}));
+})); //TODO: CHANGE SECRET
+
+//TODO: PERSIST SESSIONS ON MONGODB
 
 //Passport
 app.use(passport.initialize());
@@ -50,9 +52,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 let csrfProtection = csrf({cookie: false});
 
 //Helmet
-app.use(helmet({
-    contentSecurityPolicy: false, //TODO: ENABLE AGAIN
-    }));
+/*app.use(helmet({
+    contentSecurityPolicy: false, //DONETODO: ENABLE AGAIN
+    }));*/
+
+app.use(helmet.contentSecurityPolicy({
+    directives:{
+        "default-src": ["'self'"],
+        "script-src": ["'self'", "https://unpkg.com/"], //UNPKG domain for the map addon
+        "block-all-mixed-content":[],
+        "frame-ancestors": ["'self'"],
+        "object-src": ["'none'"],
+        "style-src": ["'self'", "https: 'unsafe-inline'"],
+        "font-src": ["'self'", "https:", "data:"],
+        "img-src": ["'self'", "data:", "*.openstreetmap.org"],
+        "upgrade-insecure-requests": [],
+    },
+}));
 
 //Flash messages
 
@@ -87,7 +103,11 @@ app.get('/dashboard', ensureAuthenticated, (req, res) => {
 
 //TODO: FIX TEMPORARY
 app.get('/map', (req, res, next) => {
-    res.render("map.ejs");
+    return res.render("map.ejs");
+});
+
+app.get('/testloc', (req, res, next) => {
+    return res.render("testloc.ejs");
 });
 
 const userRoutes = require('./routes/users.js').router;
@@ -97,6 +117,7 @@ app.use('/locations', csrfProtection, locationRoutes);
 const vaccinationRoutes = require('./routes/vaccinations.js').router;
 app.use('/vaccinations', csrfProtection, vaccinationRoutes);
 
+//Error routes
 //TODO: UNCOMMENT TO ENABLE ERROR HANDLERS
 /*app.get('/404', (req, res, next) => { //TEST ONLY
     let err = new Error('not allowed');
