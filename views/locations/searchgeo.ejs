@@ -1,0 +1,42 @@
+<%- include('../header') %> 
+
+    <main>
+        <div class="hero is-medium">
+            <div class="hero-body">
+                <div class="container">
+
+                    <div class="columns is-centered">
+                        <div class="column is-vcentered is-half">
+                            <form action="/locations/searchgeo" method="POST">
+
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                
+                                <div class="field">
+                                    <label for="name" class="label">Busca</label>
+                                    <div class="control">
+                                        <input class="input is-rounded" type="text" name="q" id="search">
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="latitude" id="latitude">
+                                <input type="hidden" name="longitude" id="longitude">
+                                
+                                
+                                <button class="button is-info is-outlined" type="submit">Search</button>
+                            </form>
+
+                        <% locations.forEach(location => { %>
+                            <p> <%= location.name %> </p>
+                        <% }) %>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="text/javascript" src="../js/location.js"></script>
+
+<%- include('../footer') %> 

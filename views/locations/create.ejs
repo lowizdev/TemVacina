@@ -2,25 +2,53 @@
 
     <main>
         <div class="hero is-medium">
-            <div class="hero-body has-text-centered">
+            <div class="hero-body">
                 <div class="container">
-                    <form action="/locations/create" method="POST">
 
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        
-                        <div class="field">
-                            <label for="name" class="label">Nome</label>
-                            <div class="control">
-                                <input type="text" name="name" id="name">
-                            </div>
+                    <div class="columns is-centered">
+                        <div class="column is-half">
+                            <form action="/locations/create" method="POST">
+
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                
+                                <div class="field">
+                                    <label for="name" class="label">Nome</label>
+                                    <div class="control">
+                                        <input type="text" name="name" id="name">
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label for="type" class="label">Type</label>
+                                    <div class="control">
+                                        <input type="text" name="type" id="type">
+                                    </div>
+                                </div>
+                                
+                                <h2 class="h2 has-text-weight-semibold is-size-4 has-text-black">Coordenadas</h2>
+
+                                <div class="field-group">
+                                    
+                                    <div class="field is-inline-block-desktop">
+                                        <label for="type" class="label">Latitude</label>
+                                        <div class="control">
+                                            <input type="number" name="latitude" id="latitude" step="any">
+                                        </div>
+                                    </div>
+
+                                    <div class="field is-inline-block-desktop">
+                                        <label for="type" class="label">Longitude</label>
+                                        <div class="control">
+                                            <input type="number" name="longitude" id="longitude" step="any">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <button class="button is-info is-outlined" type="submit">Create</button>
+                            </form>
                         </div>
-
-                        <input type="text" name="type" id="type">
-                        
-                        ADD COORDINATES HERE
-
-                        <button type="submit">Create</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

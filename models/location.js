@@ -14,8 +14,18 @@ let LocationSchema = Schema({
     },
 
     coordinates: {
-        type: [String],
-        required: true
+        type: {
+            type: String,
+            enum: ['Point'],
+            require: true,
+        },
+
+        coordinates: {
+            type: [Number],
+            required: true,
+        },
+
+        required: false
     },
 
     vaccinations: {

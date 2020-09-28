@@ -59,9 +59,16 @@ exports.createPost = (req, res, next) => {
         return res.send(validationErrors); // TODO: DO SOMETHING MORE FLEXIBLE HERE
     }
 
-    const { name, type } = req.body;
+    const { name, type, latitude, longitude } = req.body;
     //TODO: FIX THIS LATER
-    const coordinates = ["some lat", "some long"];
+
+    //let latitude = -21.87;
+    //let longitude = -42.70;
+
+    const coordinates = {
+        type: "Point",
+        coordinates: [parseFloat(latitude), parseFloat(longitude)],
+    };//["some lat", "some long"];
 
     const newLocation = new Location({
         name: name,
@@ -110,6 +117,36 @@ exports.searchPost = (req, res, next) => {
     //return res.render('locations/search');
 
 }
+
+exports.searchGeoGet = (req, res, next) => {
+
+    let locations = [];
+
+    return res.render('locations/searchgeo', { locations: locations, csrfToken: req.csrfToken() });
+}
+
+exports.searchGeoPost = (req, res, next) => { //TODO: MAYBE MERGE WITH SEARCH?
+    
+    const {q, latitude, longitude} = req.body;
+
+    const sanitizedQuery = q.replace(/[^0-9a-z ]/gi, '');
+
+    //{ $text: { $search : sanitizedQuery }}
+
+    //{ coordinates: { $near: { $maxDistance: 12000000, $geometry: { type: "Point", coordinates: [-21, -42],  } } } }
+
+    let searchQuery = { coordinates: {
+        $geoWithin: {
+            $center: [[latitude, longitude], 10], //Longitude first?
+        }
+    }};
+
+    Location.find(searchQuery, (err, locations) => { 
+        console.log(locations);
+        return res.send("Query sent!"); // 
+        //return res.render('locations/search', {locations: locations, csrfToken: req.csrfToken()});
+    });
+};
 
 
 //Edit

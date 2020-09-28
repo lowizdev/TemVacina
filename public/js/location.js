@@ -15,4 +15,19 @@ function showPosition(position){
     console.log(lat + " " + long);
 }
 
-getLocation(showPosition);
+//getLocation(showPosition);
+
+function storePosition(position){
+
+    //TODO: CHECK IF COORDS ENABLED
+
+    //TODO: MAYBE USE LOCALSTORAGE?
+    let lat = position.coords.latitude;
+    let long = position.coords.longitude;
+
+    document.getElementById("latitude").value = lat;
+    document.getElementById("longitude").value = long;
+
+}
+
+getLocation(storePosition);

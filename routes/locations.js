@@ -10,6 +10,9 @@ router.post('/create', LocationController.validate("createLocation") , LocationC
 router.get('/search', LocationController.searchGet);
 router.post('/search', LocationController.searchPost);
 
+router.get('/searchgeo', LocationController.searchGeoGet); //TODO: CHANGE IF NECESSARY
+router.post('/searchgeo', LocationController.searchGeoPost);
+
 router.get('/:locationid/edit', LocationController.editGet);
 router.post('/:locationid/edit', LocationController.editPost);
 
