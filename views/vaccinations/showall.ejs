@@ -1,0 +1,26 @@
+<%- include('../header') %> 
+
+    <main>
+        <div class="hero is-medium">
+            <div class="hero-body">
+                <div class="container">
+
+                    <div class="columns is-centered">
+                        <div class="column is-vcentered is-half">
+
+                        <% vaccinations.forEach(vaccination => { %>
+
+                            <div class="box">
+                                <p> <%= vaccination.name %> </p>
+                            </div>
+                        <% }) %>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+<%- include('../footer') %> 

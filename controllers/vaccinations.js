@@ -34,7 +34,7 @@ exports.createPost = (req, res, next) => {
     const newVaccination = new Vaccination({
         name: name,
         description: description,
-        //pathologies: pathologies,
+        //pathologies: pathologies, //TODO: IMPLEMENT PATHOLOGIES
         vaccode: vaccode,
         dosage: dosage,
     });

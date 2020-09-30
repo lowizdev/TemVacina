@@ -11,7 +11,9 @@ exports.validate = (method) => {
         case 'createLocation':{
             return[
                 body('name', 'Unable to set name').exists(),
-                body('type', 'Unable to set type').exists()
+                body('type', 'Unable to set type').exists(),
+                body('latitude', 'Unable to set latitude').exists().isFloat(),
+                body('longitude', 'Unable to set longitude').exists().isFloat(),
             ];
         }
     }
@@ -55,12 +57,21 @@ exports.createPost = (req, res, next) => {
     
     const validationErrors = validationResult(req);
 
-    if(!validationErrors.isEmpty()){
-        return res.send(validationErrors); // TODO: DO SOMETHING MORE FLEXIBLE HERE
-    }
-
     const { name, type, latitude, longitude } = req.body;
-    //TODO: FIX THIS LATER
+
+    //console.log("Here");
+
+    if(!validationErrors.isEmpty()){
+
+        //console.log("Here");
+
+        req.flash('createErrorMessage', 'Error registering current location');
+
+        return res.render('locations/create', { csrfToken: req.csrfToken(), location: {name: name, type: type}, errors: validationErrors.errors });
+
+        //return res.send(validationErrors); // DONETODO: DO SOMETHING MORE FLEXIBLE HERE
+    }
+    //DONETODO: FIX THIS LATER
 
     //let latitude = -21.87;
     //let longitude = -42.70;

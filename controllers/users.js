@@ -110,7 +110,8 @@ exports.registerPost = (req, res, next) => {
 
         }else{//ELSE, THE USER ALREADY EXISTS
 
-            //TODO: FLASH HERE
+            //DONETODO: FLASH HERE
+            req.flash('registerErrorMessage', 'Error registering the current user');
             return res.render('users/register', { csrfToken: req.csrfToken(), user: newUser }); //GO BACK TO START
         }
     }).catch((err) => {
@@ -170,33 +171,85 @@ exports.editPost = (req, res, next) => {
         return res.render("users/edit", {csrfToken: req.csrfToken(), user: { name: name, email: email }});
     }
 
-    //TODO: VALIDATE OLD PASSWORD TO CONFIRM USER AUTHORIZATION
+    //DONETODO: VALIDATE OLD PASSWORD TO CONFIRM USER AUTHORIZATION
 
     User.findById(req.user.id).then((curUser) => { //GETS THE ID FROM THE USER OF THE CURRENT SESSION
         //res.send(curUser.name);
 
-        curUser.name = name;
+        /*if(newPassword != ""){//New password is set
+
+        }*/
+
+        curUser.name = name; //TO EDIT EVERYTHING AT ONCE, MOVE THOSE LINES DOWN THERE ON BCRYPT HASH
         curUser.email = email;
 
         return curUser.save();
         
     }).then((curUser) => {
         //Handling password change if requested by user
-        //TODO: VERIFY MATCHING PASSWORD
-        if(true){
+        //DONETODO: VERIFY MATCHING PASSWORD
+        if((newPassword != "") && (newPassword == newPasswordConfirmation)){
             //return curUser.save();
+
+            bcrypt.compare(password, curUser.password).then((result) => {
+                
+                if(result){
+
+                    bcrypt.genSalt(10, (err, salt) => {
+
+
+                        bcrypt.hash(newPassword, salt, (err, hash) => {
+                            
+                            if(err){
+                                throw err;
+                            }
+                            curUser.password = hash;
+                            curUser.save()
+                            .then(user => {
+                                
+                                req.flash('editMessage', 'User and password edited successfully.');
+
+                                return res.redirect('/users/edit');
+                            })
+                            .catch((err) => {
+
+                                err.status = 500;
+                                return next(err);
+                            });
+                        });
+                    });
+                }else{
+
+                    req.flash('editMessage', 'Current password not match with input.');
+                    return res.redirect('/users/edit');
+
+                }
+            }).catch((err) => {
+
+                err.status = 500;
+                return next(err);
+            });
+
         }else{
             //Hashes and saves new password
+            req.flash('editMessage', 'User edited successfully.');
+            return res.redirect('/users/edit');
         }
 
-        return curUser;
+        //return curUser;
 
-    }).then((user) => {
+    }).catch((err) => {
+
+        err.status = 500;
+        return next(err);
+    });
+    
+    /*.then((user) => {
         
         res.send("User saved successfully");
 
-    })
-    .catch();
+    })*/
+    
 
 }
 
