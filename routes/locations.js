@@ -4,6 +4,8 @@ const router = express.Router();
 
 const LocationController = require('../controllers/locations.js');
 
+const ensureAuthenticated = require('../config/auth.js').ensureAuthenticated;
+
 router.get('/create', LocationController.createGet);
 router.post('/create', LocationController.validate("createLocation") , LocationController.createPost);
 
@@ -12,6 +14,8 @@ router.post('/search', LocationController.searchPost);
 
 router.get('/searchgeo', LocationController.searchGeoGet); //TODO: CHANGE IF NECESSARY
 router.post('/searchgeo', LocationController.searchGeoPost);
+
+router.get('/dashboard', LocationController.showDashboard);
 
 router.get('/:locationid/edit', LocationController.editGet);
 router.post('/:locationid/edit', LocationController.editPost);

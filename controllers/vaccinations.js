@@ -57,7 +57,8 @@ exports.editGet = (req, res, next) => {
         return res.render('vaccinations/edit', { vaccination: vaccination, csrfToken: req.csrfToken() });
     
     }).catch((err) => {
-        console.log(err);
+        err.status = 500;
+        return next(err);
     });
 
 }
@@ -88,7 +89,8 @@ exports.editPost = (req, res, next) => {
     }).then((location) => {
         return res.redirect('/vaccinations');
     }).catch((err) => {
-        console.log(err);
+        err.status = 500;
+        return next(err);
     });
 
 }
@@ -122,7 +124,8 @@ exports.searchPost = (req, res, pos) => {
         return res.render('vaccinations/search', {vaccinations: vaccinations, csrfToken: req.csrfToken()});
     })
     .catch((err) => {
-        console.log(err);
+        err.status = 500;
+        return next(err);
     });
 
 };
@@ -137,9 +140,22 @@ exports.delete = (req, res, pos) => {
         return res.redirect('/vaccinations');
     })
     .catch((err) => {
-        console.log(err);
+        err.status = 500;
+        return next(err);
     });
 
 };
 
-//TODO: MAKE ADMIN PANELS
+//DONETODO: MAKE ADMIN PANELS
+
+exports.showDashboard = (req, res, next) => {
+    Vaccination.find({}).then((vaccinations) => {
+
+        return res.render('vaccinations/dashboard', { vaccinations: vaccinations });
+
+    }).catch(err => { 
+
+        err.status = 500;
+        return next(err);
+    });
+}

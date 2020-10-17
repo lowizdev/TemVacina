@@ -41,6 +41,6 @@ let LocationSchema = Schema({
 
 LocationSchema.index({name: 'text', type: 'text'});
 
-const Location = mongoose.model('Location', LocationSchema, 'locations'); //TODO: CHECK THIS!!!
+const Location = mongoose.model('Location', LocationSchema, 'locations'); //DONETODO: CHECK THIS!!!
 
 module.exports.Location = Location;

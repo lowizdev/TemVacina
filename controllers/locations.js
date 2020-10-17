@@ -261,6 +261,20 @@ exports.delete = (req, res, next) => {
 
 } //DONETODO: IMPLEMENT DELETION
 
+exports.showDashboard = (req, res, next) => { //TODO: FINISH DASHBOARD
+
+    const { page = 1, qLimit = 100 } = req.query; //Can be used with or without query
+
+    const qSkipped = (page - 1) * qLimit;
+
+    Location.find({}).limit(qLimit).skip(qSkipped).exec().then((locations) => {
+        return res.render('locations/dashboard', { locations:locations });
+    }).catch(err => { 
+        err.status = 500;
+        return next(err);
+    });
+}
+
 //ADD VACCINATION ROUTE
 //Add Vaccination
 

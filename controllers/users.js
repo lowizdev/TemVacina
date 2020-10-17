@@ -255,7 +255,7 @@ exports.editPost = (req, res, next) => {
 
 exports.dashboard = (req, res, next) => {
 
-    return res.send("This is the dashboard");
+    return res.send("This is the dashboard"); //TODO: FINISH
 
 }
 

@@ -13,7 +13,7 @@ let VaccinationSchema = new Schema({
         required: true
     },
 
-    pathologies:{
+    pathologies:{ //TODO: (FUTURE) ENCAPSULATE PATHOLOGY IN ITS OWN SCHEMA
         type:[String],
         required: false,
     },

@@ -1,0 +1,40 @@
+<%- include('../header') %> 
+
+<main>
+    <div class="hero is-medium">
+        <div class="hero-body">
+            <div class="container box">
+                <div class="columns is-centered">
+                    <div class="column is-vcentered is-three-quarters">
+
+                        <h1 class="title">Localizações</h1>
+                        
+                        <div class="table-container">
+
+                            <table class="table is-hoverable is-fullwidth is-striped">
+
+                            <% if (locations.length > 0) { %>
+                                <% locations.forEach(location => { %>
+                                    <tr>
+                                        <th></th>
+                                        <td><%= location.name %> </td>
+                                        <td><%= location.type %> </td>
+                                        <td><a href="/locations/<%= location._id %>/vaccinations">Vaccinations</a> </td>
+                                        <td><a href="/locations/<%= location._id %>/edit">Edit</a> </td>
+                                        <td><a href="/locations/<%= location._id %>/delete">Delete</a> </td>
+                                    </tr>
+                                <% }) %>
+                            <% } %>
+
+                            </table>
+
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('../footer') %> 

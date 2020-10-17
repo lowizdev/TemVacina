@@ -4,7 +4,7 @@ function getLocation(showCB){
         navigator.geolocation.getCurrentPosition(showCB);
     
     }else{
-        alert("Error!"); //TODO: ENHANCE THIS
+        alert("Your location is disabled. Enable it to use our search functionality"); //TODO: ENHANCE THIS
     }
 }
 
