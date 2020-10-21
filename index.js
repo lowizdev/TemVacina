@@ -78,7 +78,7 @@ app.use(flash());
 
 app.get('/', (req, res) => {
     //res.send('Hello!');
-    res.render("index.ejs");
+    res.render("index.ejs"); //IF CHANGED TO POST, WILL NEED CSRF
 });
 
 app.get('/dashboard', ensureAuthenticated, (req, res) => {

@@ -11,16 +11,22 @@
             <div class="column is-half is-offset-one-quarter">
                 <div class="container ">
                     
-                    <form action="">
+                    <form action="/locations/searchvacgeo" method="GET">
+
+                        
+
                         <div class="field is-horizontal is-grouped">
                             <div class="control is-expanded">
-                                <input class="input is-large is-rounded" type="text" placeholder="Buscar vacinas">
+                                <input class="input is-large is-rounded" type="text" name="q" placeholder="Buscar vacinas em locais próximos a você">
                             </div>
 
+                            <input type="hidden" name="latitude" id="latitude">
+                            <input type="hidden" name="longitude" id="longitude">
+
                             <div class="control">
-                                <a class="button is-primary is-large ">
+                                <button class="button is-primary is-large " type="submit">
                                     Buscar
-                                </a>
+                                </button>
                             </div>
 
                         </div>
@@ -37,3 +43,5 @@
         TESTETSTESTETSTESET
     </div>
 </div>
+
+<script type="text/javascript" src="../js/location.js"></script>

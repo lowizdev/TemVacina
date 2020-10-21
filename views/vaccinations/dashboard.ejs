@@ -10,11 +10,22 @@
                         <h1 class="title">Vacinas </h1>
                         
                         <% if (vaccinations.length > 0) { %>
+                            <table class="table is-bordered is-striped is-fullwidth is-hoverable">
+
+                            
                             <% vaccinations.forEach(vaccination => { %>
-                                <p> <%= vaccination.name %> </p>
-                                <p> <%= vaccination.description %> </p>
-                                <p> <%= vaccination.vaccode %> </p>
+                                
+                                <tr>
+                                    <th></th>
+                                    <td> <%= vaccination.name %> </td>
+                                    <td> <%= vaccination.description %> </td>
+                                    <td> <%= vaccination.vaccode %> </td>
+                                    <td><a href="/vaccinations/<%= vaccination._id %>/edit">Edit</a></td>
+                                    <td><a href="/vaccinations/<%= vaccination._id %>/delete">Delete</a></td>
+                                </tr>
                             <% }) %>
+
+                            </table>
                         <% } %>
                     
                     </div>

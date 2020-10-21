@@ -1,0 +1,40 @@
+<%- include('../header') %> 
+
+    <main>
+        <div class="hero is-medium">
+            <div class="hero-body">
+                <div class="container">
+
+                    <div class="columns is-centered">
+                        <div class="column is-vcentered is-half">
+                            <form action="/locations/searchvacgeo" method="GET">
+                                
+                                <div class="field is-horizontal is-grouped">
+                                    
+                                    <div class="control is-expanded">
+                                        <input class="input is-rounded" type="text" name="q" id="search" placeholder="Busca">
+                                    </div>
+                                
+                                    <input type="hidden" name="latitude" id="latitude">
+                                    <input type="hidden" name="longitude" id="longitude">
+
+                                    <button class="button is-info is-outlined" type="submit">Search</button>
+                                
+                                </div>
+                            </form>
+
+                        <% locations.forEach(location => { %>
+                            <p> <%= location.name %> - <%= location.type %> </p>
+                        <% }) %>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="text/javascript" src="../js/location.js"></script>
+
+<%- include('../footer') %> 

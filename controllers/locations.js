@@ -148,7 +148,7 @@ exports.searchGeoPost = (req, res, next) => { //TODO: MAYBE MERGE WITH SEARCH?
 
     let searchQuery = { coordinates: {
         $geoWithin: {
-            $center: [[latitude, longitude], 10], //Longitude first?
+            $center: [[latitude, longitude], 50], //Longitude first?
         }
     }};
 
@@ -159,6 +159,62 @@ exports.searchGeoPost = (req, res, next) => { //TODO: MAYBE MERGE WITH SEARCH?
     });
 };
 
+
+exports.searchVacByLocationGeo = (req, res, next) => { 
+    
+    const {q, latitude, longitude} = req.query;
+
+    const sanitizedQuery = q.replace(/[^0-9a-z ]/gi, '');
+
+    let searchQuery = { coordinates: {
+        $geoWithin: {
+            $center: [[latitude, longitude], 50], //Longitude first?
+        }
+    }};
+
+    //console.log(q);
+
+    //TODO: MAYBE CHECK OTHER DATA FROM VACCINATION ON SEARCH
+    Vaccination.find({ $text: { $search: sanitizedQuery } })
+    .then((vaccinations) => {
+
+        //TODO: HANDLE WHEN EMPTY
+        console.log(vaccinations);
+
+        vaccinationIds = vaccinations.map((vaccination) => {
+            return vaccination._id;
+        });
+
+        console.log(vaccinationIds);
+        
+        return Location.find({
+            ...searchQuery, 
+            vaccinations: {
+                $elemMatch: { //Match
+                    $in: vaccinationIds
+                }
+            }
+        });
+        //return res.send('success');
+        //return res.render('locations/showvacbygeoresults');
+        //TODO: TEST WITH MORE CASES
+    })
+    .then((locations) => {
+
+        console.log(locations);
+
+        //TODO: ADD MAP TO SHOW PAGE
+        return res.render('locations/showvacbygeoresults', { locations: locations });
+
+    })
+    .catch((err) => {
+        
+        err.status = 500;
+        return next(err);
+    
+    });
+
+};
 
 //Edit
 

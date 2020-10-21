@@ -15,6 +15,8 @@ router.post('/search', LocationController.searchPost);
 router.get('/searchgeo', LocationController.searchGeoGet); //TODO: CHANGE IF NECESSARY
 router.post('/searchgeo', LocationController.searchGeoPost);
 
+router.get('/searchvacgeo', LocationController.searchVacByLocationGeo); //DONETODO: change to get
+
 router.get('/dashboard', LocationController.showDashboard);
 
 router.get('/:locationid/edit', LocationController.editGet);
