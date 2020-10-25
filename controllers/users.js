@@ -255,7 +255,18 @@ exports.editPost = (req, res, next) => {
 
 exports.dashboard = (req, res, next) => {
 
-    return res.send("This is the dashboard"); //TODO: FINISH
+    //return res.send("This is the dashboard"); //TODO: FINISH
+
+    User.find({}).then(users => {
+
+        return res.render('users/dashboard', { users: users });
+
+    }).catch((err) => {
+        
+        err.status = 500;
+        return next(err);
+
+    });
 
 }
 

@@ -7,6 +7,7 @@ const path = require('path');
 const flash = require('flash');
 const helmet = require('helmet');
 const csrf = require('csurf');
+const uuid = require('uuid');
 
 //const User = require("./models/user.js").User;
 
@@ -51,6 +52,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 let csrfProtection = csrf({cookie: false});
 
+//Nonce for inline scripts //TODO: MAYBE CHANGE TO SOMETHING MORE FORMAL IF ANY
+
+app.use((req, res, next) => {
+
+    res.locals.nonce = uuid.v4();
+
+    next();
+});
+
 //Helmet
 /*app.use(helmet({
     contentSecurityPolicy: false, //DONETODO: ENABLE AGAIN
@@ -59,7 +69,7 @@ let csrfProtection = csrf({cookie: false});
 app.use(helmet.contentSecurityPolicy({
     directives:{
         "default-src": ["'self'"],
-        "script-src": ["'self'", "https://unpkg.com/"], //UNPKG domain for the map addon
+        "script-src": ["'self'", "https://unpkg.com/", (req, res) => `'nonce-${res.locals.nonce}'` ], //UNPKG domain for the map addon //NONCE ADDED FOR INLINE SCRIPTS (USING BACKTICKS IS MANDATORY FOR CSP, APPARENTLY)
         "block-all-mixed-content":[],
         "frame-ancestors": ["'self'"],
         "object-src": ["'none'"],

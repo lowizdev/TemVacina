@@ -29,6 +29,14 @@
                             </table>
 
                         </div>
+
+                        <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                            <% if (page > 1) { %>
+                                <a class="pagination-previous" href="/locations/dashboard?page=<%= page - 1 %>">Previous page</a>
+                            <% } %>
+                            
+                            <a class="pagination-next" href="/locations/dashboard?page=<%= parseInt(page) + 1 %>">Next page</a>
+                        </nav>
                     
                     </div>
                 </div>

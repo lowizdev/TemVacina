@@ -23,7 +23,8 @@
     "helmet": "^4.1.0",
     "mongoose": "^5.9.22",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "bulma": "^0.9.0",

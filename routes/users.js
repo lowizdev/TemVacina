@@ -15,9 +15,9 @@ router.get('/logout', UserController.logout);
 router.get('/edit', ensureAuthenticated,  UserController.editGet);
 router.post('/edit', ensureAuthenticated,  UserController.editPost);
 
-router.get('/dashboard', UserController.dashboard);
+router.get('/dashboard', ensureAuthenticated,   UserController.dashboard); //TODO: USE ADMIN PREFIX?
 
-router.get('/testuser', UserController.test);
+router.get('/testuser', ensureAuthenticated,  UserController.test);
 
 
 exports.router = router;

@@ -154,7 +154,7 @@ exports.searchGeoPost = (req, res, next) => { //TODO: MAYBE MERGE WITH SEARCH?
 
     Location.find(searchQuery, (err, locations) => { 
         console.log(locations);
-        return res.send("Query sent!"); // 
+        return res.send("Query sent!"); // TODO: FINISH RESPONSE
         //return res.render('locations/search', {locations: locations, csrfToken: req.csrfToken()});
     });
 };
@@ -179,13 +179,13 @@ exports.searchVacByLocationGeo = (req, res, next) => {
     .then((vaccinations) => {
 
         //TODO: HANDLE WHEN EMPTY
-        console.log(vaccinations);
+        //console.log(vaccinations);
 
         vaccinationIds = vaccinations.map((vaccination) => {
             return vaccination._id;
         });
 
-        console.log(vaccinationIds);
+        //console.log(vaccinationIds);
         
         return Location.find({
             ...searchQuery, 
@@ -201,10 +201,10 @@ exports.searchVacByLocationGeo = (req, res, next) => {
     })
     .then((locations) => {
 
-        console.log(locations);
+        //console.log(locations);//TESTING ONLY
 
         //TODO: ADD MAP TO SHOW PAGE
-        return res.render('locations/showvacbygeoresults', { locations: locations });
+        return res.render('locations/showvacbygeoresults', { locations: locations, nonce: res.locals.nonce });
 
     })
     .catch((err) => {
@@ -317,14 +317,14 @@ exports.delete = (req, res, next) => {
 
 } //DONETODO: IMPLEMENT DELETION
 
-exports.showDashboard = (req, res, next) => { //TODO: FINISH DASHBOARD
+exports.showDashboard = (req, res, next) => { //DONETODO: FINISH DASHBOARD
 
     const { page = 1, qLimit = 100 } = req.query; //Can be used with or without query
 
     const qSkipped = (page - 1) * qLimit;
 
     Location.find({}).limit(qLimit).skip(qSkipped).exec().then((locations) => {
-        return res.render('locations/dashboard', { locations:locations });
+        return res.render('locations/dashboard', { locations: locations, page: page });
     }).catch(err => { 
         err.status = 500;
         return next(err);
