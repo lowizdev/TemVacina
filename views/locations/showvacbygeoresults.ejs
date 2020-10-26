@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="../css/mystyles.css">
 
     <style>
-        #mapid { height: 180px; width: 80em; }
+        #mapid { height: 180px; width: 100%; }
     </style>
     
 </head>
@@ -29,22 +29,24 @@
 
     <main>
 
-        <div class="hero is-medium">
-            <div class="hero-body has-text-centered">
-                <div class="container">
-                    <p class="subtitle">
-                        Map Screen
-                    </p>
-                    </div>
-                    
-                    <div class="is-medium" id="mapid"></div>
-                    
-            </div>
-    
-        </div>
+        
 
         <div class="hero is-medium">
             <div class="hero-body">
+
+                <div class="container mb-3">
+                    <div class="columns is-centered">
+                        <div class="column is-vcentered is-half">
+                        <!--<p class="subtitle">
+                            Map Screen
+                        </p>-->
+                        
+                        
+                        <div class="is-medium" id="mapid"></div>
+                        </div>
+                    </div>
+                </div>  
+
                 <div class="container">
 
                     <div class="columns is-centered">
@@ -87,9 +89,18 @@
             return location.coordinates.coordinates;
         });
 
+        //TODO: ADD INFO POPUPS ON MAP MARKERS
+
         //console.log(locationCoordinates);
+
+        //DONETODO: GET THOSE TWO IN A MORE FORMAL WAY
+        let lat = '<%= coords.latitude %>';//document.getElementById("latitude").value;
+        let long = '<%= coords.longitude %>';//document.getElementById("longitude").value;
+
+        //console.log(lat);
     
-        let map = initializeMap('mapid', [-21.80, -42.00]);
+        let map = initializeMap('mapid', [lat, long]).setZoom(10);
+        
 
         let renderer = L.canvas({ padding: 0.5 });
 

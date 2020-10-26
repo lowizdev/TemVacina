@@ -203,8 +203,9 @@ exports.searchVacByLocationGeo = (req, res, next) => {
 
         //console.log(locations);//TESTING ONLY
 
-        //TODO: ADD MAP TO SHOW PAGE
-        return res.render('locations/showvacbygeoresults', { locations: locations, nonce: res.locals.nonce });
+        //DONETODO: ADD MAP TO SHOW PAGE
+        //TODO: FIX MAP STYLING 
+        return res.render('locations/showvacbygeoresults', { locations: locations, coords: { latitude, longitude }, nonce: res.locals.nonce });
 
     })
     .catch((err) => {
