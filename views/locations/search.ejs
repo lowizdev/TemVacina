@@ -1,7 +1,12 @@
 <%- include('../header') %> 
 
     <main>
-        <div class="hero is-medium">
+        <div class="hero is-medium ">
+            
+            <div class="hero-head is-info">
+                <%- include('../navbar', {navbarColor: ''}) %> 
+            </div>
+
             <div class="hero-body">
                 <div class="container">
 
@@ -11,15 +16,20 @@
 
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 
-                                <div class="field">
-                                    <label for="name" class="label">Busca</label>
-                                    <div class="control">
-                                        <input class="input is-rounded" type="text" name="q" id="search">
+                                <div class="field is-horizontal is-grouped">
+                                    <!--<label for="name" class="label">Busca</label>-->
+                                    <div class="control is-expanded">
+                                        <input class="input is-rounded" type="text" name="q" id="search" placeholder="Busca de locais">
                                     </div>
+
+                                    <div class="control">
+                                        <button class="button is-info is-outlined" type="submit">Search</button>
+                                    </div>
+                                    
                                 </div>
                                 
                                 
-                                <button class="button is-info is-outlined" type="submit">Search</button>
+                                
                             </form>
 
                         <% locations.forEach(location => { %>

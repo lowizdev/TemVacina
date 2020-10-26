@@ -2,6 +2,11 @@
 
     <main>
         <div class="hero is-medium">
+
+            <div class="hero-head is-info">
+                <%- include('../navbar', {navbarColor: ''}) %> 
+            </div>
+
             <div class="hero-body">
                 <div class="container">
 
@@ -11,7 +16,7 @@
                         <% vaccinations.forEach(vaccination => { %>
 
                             <div class="box">
-                                <p> <%= vaccination.name %> </p>
+                                <p> <%= vaccination.vaccode %> - <%= vaccination.name %> </p>
                             </div>
                         <% }) %>
 

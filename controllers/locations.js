@@ -164,7 +164,14 @@ exports.searchVacByLocationGeo = (req, res, next) => {
     
     const {q, latitude, longitude} = req.query;
 
+    if(q == undefined || latitude == undefined || longitude == undefined){ //very simple validation
+        let err = Error();
+        err.status = 404;
+        return next(err);
+    }
+    
     const sanitizedQuery = q.replace(/[^0-9a-z ]/gi, '');
+    
 
     let searchQuery = { coordinates: {
         $geoWithin: {
