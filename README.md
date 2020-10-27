@@ -1,17 +1,17 @@
 # TemVacina
+
 ## Aplicação web crowdsourced para busca de locais de vacinação
 
 Este projeto consiste em um sistema web para registro e consulta de vacinas por locais de vacinação, utilizando de geolocalização para fornecer resultados próximos ao usuário, bem como, visão de mapas para melhoria da usabilidade.
 
 Desenvolvida em NodeJS utilizando o framework ExpressJS. Utiliza o padrão arquitetural MVC.
 
-Esta aplicação poderá ser utilizada tanto num contexto mais local quanto em algo de maior escala.
+Esta aplicação poderá ser utilizada tanto num contexto mais local quanto em algo de maior escala. A mesma foi desenvolvida para ser executada numa stack mínima.
 
 
 **Atenção: Aplicação em desenvolvimento, porém plenamente utilizável**
 
 ## Decisões arquiteturais
-# 
 
 * ExpressJS
 * MongoDB (4.2+)
@@ -22,13 +22,11 @@ Esta aplicação poderá ser utilizada tanto num contexto mais local quanto em a
 
 ## Tutorial
 
-# 
 
 Em construção! 👷
 
 ## Deploy
 
-# 
 
 É necessária a configuração do arquivo ".env":
 
@@ -42,9 +40,8 @@ Algumas rotas de teste vem habilitadas por padrão (poderá ser removido em vers
 
 ## Instalação Teste
 
-#
 
-Crie o arquivo '.env' (veja na seção anterior).
+Crie e configure o arquivo ".env" (veja na seção Deploy).
 
 Para instalar as dependências do projeto, utilize o comando:
 ```bash
@@ -59,7 +56,6 @@ npm start
 
 ## Onde obter dados?
 
-#
 
 Como fontes iniciais para dados acerca de postos de saúde e afins do Brasil, pode se utilizar das bases de dados disponíveis em:
 * http://cnes.datasus.gov.br/
@@ -67,7 +63,6 @@ Como fontes iniciais para dados acerca de postos de saúde e afins do Brasil, po
 
 ## Próximos passos
 
-#
 
 - Integrações para coleta de informações de usuários e geração de métricas.
 - Elaboração de ícones e melhorias na UI/UX da aplicação.
