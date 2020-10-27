@@ -8,10 +8,15 @@ const flash = require('flash');
 const helmet = require('helmet');
 const csrf = require('csurf');
 const uuid = require('uuid');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+//console.log(process.env.MONGODB_URL);
 
 //const User = require("./models/user.js").User;
 
-const conStr = "mongodb://localhost:27017/temvacinadb";
+const conStr = process.env.MONGODB_URL;
 
 const app = express();
 
@@ -30,8 +35,10 @@ app.use(express.static('public'));
 
 //Session
 
+sessionSecret = process.env.SECRET;
+
 app.use(session({
-    secret: 'this is a secret',
+    secret: sessionSecret,
     resave: true,
     saveUninitialized:true,
 })); //TODO: CHANGE SECRET
@@ -129,7 +136,7 @@ app.use('/vaccinations', csrfProtection, vaccinationRoutes);
 
 //Error routes
 //TODO: UNCOMMENT TO ENABLE ERROR HANDLERS
-/*app.get('/404', (req, res, next) => { //TEST ONLY
+app.get('/404', (req, res, next) => { //TEST ONLY
     let err = new Error('not allowed');
     err.status = 404;
     next(err);
@@ -146,6 +153,6 @@ app.use((err, req, res, next) => {
         return res.render('errors/500');
     }
 
-});*/
+});
 
 module.exports = app;
